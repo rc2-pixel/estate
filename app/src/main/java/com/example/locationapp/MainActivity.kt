@@ -1,6 +1,7 @@
 package com.example.locationapp
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
@@ -8,10 +9,8 @@ import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -51,9 +50,7 @@ class MainActivity : AppCompatActivity() {
     private val takePictureLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicture()
     ) { success ->
-        if (success) {
-            savePhoto()
-        }
+        if (success) showInputDialog()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,14 +65,77 @@ class MainActivity : AppCompatActivity() {
         btnPhotoList = findViewById(R.id.btnPhotoList)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
         btnRefresh.setOnClickListener { checkPermissionAndGetLocation() }
         btnCamera.setOnClickListener { checkCameraPermission() }
         btnPhotoList.setOnClickListener {
             startActivity(Intent(this, PhotoListActivity::class.java))
         }
-
         checkPermissionAndGetLocation()
+    }
+
+    private fun showInputDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_input, null)
+
+        // 土地
+        val etArea = dialogView.findViewById<EditText>(R.id.etArea)
+        val spinnerLandCategory = dialogView.findViewById<Spinner>(R.id.spinnerLandCategory)
+        val etFrontage = dialogView.findViewById<EditText>(R.id.etFrontage)
+        val etRoadWidth = dialogView.findViewById<EditText>(R.id.etRoadWidth)
+        val spinnerRoadDirection = dialogView.findViewById<Spinner>(R.id.spinnerRoadDirection)
+
+        // 建物
+        val spinnerStructure = dialogView.findViewById<Spinner>(R.id.spinnerStructure)
+        val etBuiltYear = dialogView.findViewById<EditText>(R.id.etBuiltYear)
+        val etFloors = dialogView.findViewById<EditText>(R.id.etFloors)
+        val spinnerLayout = dialogView.findViewById<Spinner>(R.id.spinnerLayout)
+        val etParking = dialogView.findViewById<EditText>(R.id.etParking)
+        val etWaterSupply = dialogView.findViewById<EditText>(R.id.etWaterSupply)
+        val etSewage = dialogView.findViewById<EditText>(R.id.etSewage)
+        val etMemo = dialogView.findViewById<EditText>(R.id.etMemo)
+
+        // 地目
+        ArrayAdapter.createFromResource(this, R.array.land_categories, android.R.layout.simple_spinner_item)
+            .also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerLandCategory.adapter = it }
+
+        // 道路向き
+        ArrayAdapter.createFromResource(this, R.array.road_directions, android.R.layout.simple_spinner_item)
+            .also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerRoadDirection.adapter = it }
+
+        // 構造
+        ArrayAdapter.createFromResource(this, R.array.structures, android.R.layout.simple_spinner_item)
+            .also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerStructure.adapter = it }
+
+        // 間取り
+        ArrayAdapter.createFromResource(this, R.array.layouts, android.R.layout.simple_spinner_item)
+            .also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerLayout.adapter = it }
+
+        AlertDialog.Builder(this)
+            .setTitle("物件情報入力")
+            .setView(dialogView)
+            .setPositiveButton("保存") { _, _ ->
+                savePhoto(
+                    area = etArea.text.toString(),
+                    landCategory = spinnerLandCategory.selectedItem.toString(),
+                    frontage = etFrontage.text.toString(),
+                    roadWidth = etRoadWidth.text.toString(),
+                    roadDirection = spinnerRoadDirection.selectedItem.toString(),
+                    structure = spinnerStructure.selectedItem.toString(),
+                    builtYear = etBuiltYear.text.toString(),
+                    floors = etFloors.text.toString(),
+                    layout = spinnerLayout.selectedItem.toString(),
+                    parking = etParking.text.toString(),
+                    waterSupply = etWaterSupply.text.toString(),
+                    sewage = etSewage.text.toString(),
+                    memo = etMemo.text.toString()
+                )
+            }
+            .setNegativeButton("スキップ") { _, _ -> savePhoto() }
+            .setCancelable(false)
+            .show()
     }
 
     private fun checkCameraPermission() {
@@ -83,11 +143,7 @@ class MainActivity : AppCompatActivity() {
             == PackageManager.PERMISSION_GRANTED) {
             openCamera()
         } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.CAMERA),
-                2001
-            )
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 2001)
         }
     }
 
@@ -96,15 +152,16 @@ class MainActivity : AppCompatActivity() {
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val photoFile = File.createTempFile("PHOTO_${timeStamp}_", ".jpg", storageDir)
         photoFilePath = photoFile.absolutePath
-        photoUri = FileProvider.getUriForFile(
-            this,
-            "com.example.locationapp.fileprovider",
-            photoFile
-        )
+        photoUri = FileProvider.getUriForFile(this, "com.example.locationapp.fileprovider", photoFile)
         takePictureLauncher.launch(photoUri)
     }
 
-    private fun savePhoto() {
+    private fun savePhoto(
+        area: String = "", landCategory: String = "", frontage: String = "",
+        roadWidth: String = "", roadDirection: String = "", structure: String = "",
+        builtYear: String = "", floors: String = "", layout: String = "",
+        parking: String = "", waterSupply: String = "", sewage: String = "", memo: String = ""
+    ) {
         val db = AppDatabase.getDatabase(this)
         scope.launch {
             val photo = Photo(
@@ -113,30 +170,34 @@ class MainActivity : AppCompatActivity() {
                 latitude = currentLat,
                 longitude = currentLng,
                 altitude = currentAltitude,
+                area = area,
+                landCategory = landCategory,
+                frontage = frontage,
+                roadWidth = roadWidth,
+                roadDirection = roadDirection,
+                structure = structure,
+                builtYear = builtYear,
+                floors = floors,
+                layout = layout,
+                parking = parking,
+                waterSupply = waterSupply,
+                sewage = sewage,
+                memo = memo,
                 timestamp = System.currentTimeMillis()
             )
-            withContext(Dispatchers.IO) {
-                db.photoDao().insert(photo)
-            }
-            Toast.makeText(this@MainActivity, "写真を保存しました", Toast.LENGTH_SHORT).show()
+            withContext(Dispatchers.IO) { db.photoDao().insert(photo) }
+            Toast.makeText(this@MainActivity, "保存しました", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun checkPermissionAndGetLocation() {
-        val fineLocation = ContextCompat.checkSelfPermission(
-            this, Manifest.permission.ACCESS_FINE_LOCATION
-        )
+        val fineLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
         if (fineLocation == PackageManager.PERMISSION_GRANTED) {
             getCurrentLocation()
         } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                PERMISSION_REQUEST_CODE
-            )
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
+                PERMISSION_REQUEST_CODE)
         }
     }
 
@@ -186,11 +247,8 @@ class MainActivity : AppCompatActivity() {
             if (!addresses.isNullOrEmpty()) {
                 val address = addresses[0]
                 val parts = listOf(
-                    address.adminArea,
-                    address.locality,
-                    address.subLocality,
-                    address.thoroughfare,
-                    address.subThoroughfare
+                    address.adminArea, address.locality, address.subLocality,
+                    address.thoroughfare, address.subThoroughfare
                 ).filterNotNull()
                 currentAddress = if (parts.isNotEmpty()) parts.joinToString("") else address.getAddressLine(0) ?: ""
                 tvAddress.text = currentAddress
@@ -207,26 +265,16 @@ class MainActivity : AppCompatActivity() {
         scope.cancel()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             PERMISSION_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getCurrentLocation()
-                } else {
-                    Toast.makeText(this, "位置情報の許可が必要です", Toast.LENGTH_LONG).show()
-                }
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) getCurrentLocation()
+                else Toast.makeText(this, "位置情報の許可が必要です", Toast.LENGTH_LONG).show()
             }
             2001 -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openCamera()
-                } else {
-                    Toast.makeText(this, "カメラの許可が必要です", Toast.LENGTH_LONG).show()
-                }
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) openCamera()
+                else Toast.makeText(this, "カメラの許可が必要です", Toast.LENGTH_LONG).show()
             }
         }
     }
