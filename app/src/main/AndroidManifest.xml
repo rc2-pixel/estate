@@ -34,7 +34,7 @@
         </activity>
 
         <activity android:name=".PhotoListActivity" />
-
+        <activity android:name=".PhotoSwipeActivity" />
     </application>
 
 </manifest>
