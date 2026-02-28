@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 地目 -->
+    <string-array name="land_categories">
+        <item>（未選択）</item>
+        <item>宅地</item>
+        <item>田</item>
+        <item>畑</item>
+        <item>山林</item>
+        <item>雑種地</item>
+        <item>原野</item>
+        <item>牧場</item>
+        <item>池沼</item>
+        <item>鉱泉地</item>
+        <item>その他</item>
+    </string-array>
+
+    <!-- 道路向き -->
+    <string-array name="road_directions">
+        <item>（未選択）</item>
+        <item>東</item>
+        <item>西</item>
+        <item>南</item>
+        <item>北</item>
+        <item>南東</item>
+        <item>南西</item>
+        <item>北東</item>
+        <item>北西</item>
+    </string-array>
+
+    <!-- 構造 -->
+    <string-array name="structures">
+        <item>（未選択）</item>
+        <item>木造</item>
+        <item>軽量鉄骨造</item>
+        <item>重量鉄骨造</item>
+        <item>鉄筋コンクリート造（RC）</item>
+        <item>鉄骨鉄筋コンクリート造（SRC）</item>
+        <item>コンクリートブロック造</item>
+        <item>その他</item>
+    </string-array>
+
+    <!-- 間取り -->
+    <string-array name="layouts">
+        <item>（未選択）</item>
+        <item>ワンルーム</item>
+        <item>1K</item>
+        <item>1DK</item>
+        <item>1LDK</item>
+        <item>2K</item>
+        <item>2DK</item>
+        <item>2LDK</item>
+        <item>3K</item>
+        <item>3DK</item>
+        <item>3LDK</item>
+        <item>4LDK</item>
+        <item>5LDK以上</item>
+        <item>その他</item>
+    </string-array>
+
+</resources>
