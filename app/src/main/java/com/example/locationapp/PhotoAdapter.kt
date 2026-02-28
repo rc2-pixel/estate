@@ -21,6 +21,7 @@ class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(DiffCallba
         val tvAddress: TextView = view.findViewById(R.id.tvItemAddress)
         val tvAltitude: TextView = view.findViewById(R.id.tvItemAltitude)
         val tvDate: TextView = view.findViewById(R.id.tvItemDate)
+        val tvDetail: TextView = view.findViewById(R.id.tvItemDetail)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
@@ -31,10 +32,30 @@ class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(DiffCallba
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         val photo = getItem(position)
+
         holder.tvAddress.text = photo.address.ifEmpty { "住所不明" }
         holder.tvAltitude.text = "標高: %.1f m".format(photo.altitude)
+
         val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.JAPANESE)
         holder.tvDate.text = sdf.format(Date(photo.timestamp))
+
+        // 土地・建物情報をまとめて表示
+        val details = mutableListOf<String>()
+        if (photo.area.isNotEmpty()) details.add("面積: ${photo.area}㎡")
+        if (photo.landCategory.isNotEmpty() && photo.landCategory != "（未選択）") details.add("地目: ${photo.landCategory}")
+        if (photo.frontage.isNotEmpty()) details.add("間口: ${photo.frontage}m")
+        if (photo.roadWidth.isNotEmpty()) details.add("道路幅: ${photo.roadWidth}m")
+        if (photo.roadDirection.isNotEmpty() && photo.roadDirection != "（未選択）") details.add("道路向き: ${photo.roadDirection}")
+        if (photo.structure.isNotEmpty() && photo.structure != "（未選択）") details.add("構造: ${photo.structure}")
+        if (photo.builtYear.isNotEmpty()) details.add("築年: ${photo.builtYear}年")
+        if (photo.floors.isNotEmpty()) details.add("階数: ${photo.floors}階")
+        if (photo.layout.isNotEmpty() && photo.layout != "（未選択）") details.add("間取り: ${photo.layout}")
+        if (photo.parking.isNotEmpty()) details.add("駐車: ${photo.parking}台")
+        if (photo.waterSupply.isNotEmpty()) details.add("上水: ${photo.waterSupply}")
+        if (photo.sewage.isNotEmpty()) details.add("下水: ${photo.sewage}")
+        if (photo.memo.isNotEmpty()) details.add("メモ: ${photo.memo}")
+
+        holder.tvDetail.text = if (details.isNotEmpty()) details.joinToString("　") else "詳細情報なし"
 
         Glide.with(holder.ivPhoto.context)
             .load(File(photo.filePath))
