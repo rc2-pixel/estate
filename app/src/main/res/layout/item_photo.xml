@@ -58,14 +58,19 @@
 
     </LinearLayout>
 
-    <ImageButton
+    <!-- 青色のマップボタン -->
+    <Button
         android:id="@+id/btnMap"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_gravity="center_vertical"
-        android:src="@android:drawable/ic_dialog_map"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="地図で表示"
-        android:layout_marginStart="4dp" />
+        android:layout_marginStart="8dp"
+        android:backgroundTint="#1976D2"
+        android:drawableTop="@android:drawable/ic_dialog_map"
+        android:text="地図"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        android:paddingTop="4dp"
+        android:contentDescription="地図で表示" />
 
 </LinearLayout>
