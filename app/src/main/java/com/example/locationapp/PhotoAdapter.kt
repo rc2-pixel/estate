@@ -3,7 +3,7 @@ package com.example.locationapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -21,12 +21,12 @@ class PhotoAdapter(
 ) : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(DiffCallback()) {
 
     class PhotoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val ivPhoto: ImageView   = view.findViewById(R.id.ivPhoto)
-        val tvAddress: TextView  = view.findViewById(R.id.tvItemAddress)
+        val ivPhoto: ImageView  = view.findViewById(R.id.ivPhoto)
+        val tvAddress: TextView = view.findViewById(R.id.tvItemAddress)
         val tvAltitude: TextView = view.findViewById(R.id.tvItemAltitude)
-        val tvDate: TextView     = view.findViewById(R.id.tvItemDate)
-        val tvDetail: TextView   = view.findViewById(R.id.tvItemDetail)
-        val btnMap: ImageButton  = view.findViewById(R.id.btnMap)
+        val tvDate: TextView    = view.findViewById(R.id.tvItemDate)
+        val tvDetail: TextView  = view.findViewById(R.id.tvItemDetail)
+        val btnMap: Button      = view.findViewById(R.id.btnMap)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
