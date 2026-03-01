@@ -100,18 +100,25 @@ class MainActivity : AppCompatActivity() {
     private fun showInputDialog() {
         val dialogView: View = LayoutInflater.from(this).inflate(R.layout.dialog_input, null)
 
+        // 床面積
+        val etFloorArea1     = dialogView.findViewById<EditText>(R.id.etFloorArea1)
+        val etFloorArea2     = dialogView.findViewById<EditText>(R.id.etFloorArea2)
+        val etFloorArea3     = dialogView.findViewById<EditText>(R.id.etFloorArea3)
+        val etFloorAreaTotal = dialogView.findViewById<EditText>(R.id.etFloorAreaTotal)
+        // 土地
         val etArea               = dialogView.findViewById<EditText>(R.id.etArea)
         val spinnerLandCategory  = dialogView.findViewById<Spinner>(R.id.spinnerLandCategory)
         val etFrontage           = dialogView.findViewById<EditText>(R.id.etFrontage)
         val etRoadWidth          = dialogView.findViewById<EditText>(R.id.etRoadWidth)
         val spinnerRoadDirection = dialogView.findViewById<Spinner>(R.id.spinnerRoadDirection)
+        // 建物
         val spinnerStructure     = dialogView.findViewById<Spinner>(R.id.spinnerStructure)
-        val etBuiltYear          = dialogView.findViewById<EditText>(R.id.etBuiltYear)
-        val etFloors             = dialogView.findViewById<EditText>(R.id.etFloors)
+        val spinnerBuiltYear     = dialogView.findViewById<Spinner>(R.id.spinnerBuiltYear)
+        val spinnerFloors        = dialogView.findViewById<Spinner>(R.id.spinnerFloors)
         val spinnerLayout        = dialogView.findViewById<Spinner>(R.id.spinnerLayout)
-        val etParking            = dialogView.findViewById<EditText>(R.id.etParking)
-        val etWaterSupply        = dialogView.findViewById<EditText>(R.id.etWaterSupply)
-        val etSewage             = dialogView.findViewById<EditText>(R.id.etSewage)
+        val spinnerParking       = dialogView.findViewById<Spinner>(R.id.spinnerParking)
+        val spinnerWaterSupply   = dialogView.findViewById<Spinner>(R.id.spinnerWaterSupply)
+        val spinnerSewage        = dialogView.findViewById<Spinner>(R.id.spinnerSewage)
         val etMemo               = dialogView.findViewById<EditText>(R.id.etMemo)
 
         fun setSpinner(spinner: Spinner, arrayResId: Int) {
@@ -124,25 +131,34 @@ class MainActivity : AppCompatActivity() {
         setSpinner(spinnerLandCategory,  R.array.land_categories)
         setSpinner(spinnerRoadDirection, R.array.road_directions)
         setSpinner(spinnerStructure,     R.array.structures)
+        setSpinner(spinnerBuiltYear,     R.array.built_years)
+        setSpinner(spinnerFloors,        R.array.floors_list)
         setSpinner(spinnerLayout,        R.array.layouts)
+        setSpinner(spinnerParking,       R.array.parking_list)
+        setSpinner(spinnerWaterSupply,   R.array.utility_options)
+        setSpinner(spinnerSewage,        R.array.utility_options)
 
         AlertDialog.Builder(this)
             .setTitle("物件情報入力（${sessionPhotoPaths.size}枚）")
             .setView(dialogView)
             .setPositiveButton("保存") { _, _ ->
                 saveSession(
+                    floorArea1    = etFloorArea1.text.toString(),
+                    floorArea2    = etFloorArea2.text.toString(),
+                    floorArea3    = etFloorArea3.text.toString(),
+                    floorAreaTotal= etFloorAreaTotal.text.toString(),
                     area          = etArea.text.toString(),
                     landCategory  = spinnerLandCategory.selectedItem.toString(),
                     frontage      = etFrontage.text.toString(),
                     roadWidth     = etRoadWidth.text.toString(),
                     roadDirection = spinnerRoadDirection.selectedItem.toString(),
                     structure     = spinnerStructure.selectedItem.toString(),
-                    builtYear     = etBuiltYear.text.toString(),
-                    floors        = etFloors.text.toString(),
+                    builtYear     = spinnerBuiltYear.selectedItem.toString(),
+                    floors        = spinnerFloors.selectedItem.toString(),
                     layout        = spinnerLayout.selectedItem.toString(),
-                    parking       = etParking.text.toString(),
-                    waterSupply   = etWaterSupply.text.toString(),
-                    sewage        = etSewage.text.toString(),
+                    parking       = spinnerParking.selectedItem.toString(),
+                    waterSupply   = spinnerWaterSupply.selectedItem.toString(),
+                    sewage        = spinnerSewage.selectedItem.toString(),
                     memo          = etMemo.text.toString()
                 )
             }
@@ -152,6 +168,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun saveSession(
+        floorArea1: String = "", floorArea2: String = "",
+        floorArea3: String = "", floorAreaTotal: String = "",
         area: String = "", landCategory: String = "", frontage: String = "",
         roadWidth: String = "", roadDirection: String = "", structure: String = "",
         builtYear: String = "", floors: String = "", layout: String = "",
@@ -162,27 +180,31 @@ class MainActivity : AppCompatActivity() {
         scope.launch {
             val photos = sessionPhotoPaths.mapIndexed { index, path ->
                 Photo(
-                    filePath      = path,
-                    address       = currentAddress,
-                    latitude      = currentLat,
-                    longitude     = currentLng,
-                    altitude      = currentAltitude,
-                    sessionId     = currentSessionId,
-                    isMainPhoto   = (index == 0),
-                    area          = area,
-                    landCategory  = landCategory,
-                    frontage      = frontage,
-                    roadWidth     = roadWidth,
-                    roadDirection = roadDirection,
-                    structure     = structure,
-                    builtYear     = builtYear,
-                    floors        = floors,
-                    layout        = layout,
-                    parking       = parking,
-                    waterSupply   = waterSupply,
-                    sewage        = sewage,
-                    memo          = memo,
-                    timestamp     = now + index
+                    filePath       = path,
+                    address        = currentAddress,
+                    latitude       = currentLat,
+                    longitude      = currentLng,
+                    altitude       = currentAltitude,
+                    sessionId      = currentSessionId,
+                    isMainPhoto    = (index == 0),
+                    floorArea1     = floorArea1,
+                    floorArea2     = floorArea2,
+                    floorArea3     = floorArea3,
+                    floorAreaTotal = floorAreaTotal,
+                    area           = area,
+                    landCategory   = landCategory,
+                    frontage       = frontage,
+                    roadWidth      = roadWidth,
+                    roadDirection  = roadDirection,
+                    structure      = structure,
+                    builtYear      = builtYear,
+                    floors         = floors,
+                    layout         = layout,
+                    parking        = parking,
+                    waterSupply    = waterSupply,
+                    sewage         = sewage,
+                    memo           = memo,
+                    timestamp      = now + index
                 )
             }
             withContext(Dispatchers.IO) { db.photoDao().insertAll(photos) }

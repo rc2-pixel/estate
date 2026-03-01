@@ -20,14 +20,19 @@ data class Photo(
     val frontage: String = "",
     val roadWidth: String = "",
     val roadDirection: String = "",
+    // 床面積
+    val floorArea1: String = "",
+    val floorArea2: String = "",
+    val floorArea3: String = "",
+    val floorAreaTotal: String = "",
     // 建物情報
     val structure: String = "",
     val builtYear: String = "",
     val floors: String = "",
     val layout: String = "",
     val parking: String = "",
-    val waterSupply: String = "",
-    val sewage: String = "",
+    val waterSupply: String = "",  // "有" or "無"
+    val sewage: String = "",       // "有" or "無"
     // メモ
     val memo: String = "",
     val timestamp: Long
