@@ -12,7 +12,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:scaleType="centerCrop"
-        android:layout_marginEnd="12dp" />
+        android:layout_marginEnd="12dp"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -28,7 +28,21 @@
             android:textSize="14sp"
             android:textColor="#333333"
             android:textStyle="bold"
-            android:maxLines="2" />
+            android:maxLines="2"/>
+
+        <!-- 表示ボタン（住所の下） -->
+        <Button
+            android:id="@+id/btnDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:text="詳細表示"
+            android:textSize="11sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#4CAF50"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:layout_marginTop="4dp"
+            android:minHeight="0dp"/>
 
         <TextView
             android:id="@+id/tvItemAltitude"
@@ -36,7 +50,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#666666"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"/>
 
         <TextView
             android:id="@+id/tvItemDate"
@@ -44,7 +58,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#888888"
-            android:layout_marginTop="2dp" />
+            android:layout_marginTop="2dp"/>
 
         <TextView
             android:id="@+id/tvItemDetail"
@@ -53,8 +67,7 @@
             android:textSize="11sp"
             android:textColor="#555555"
             android:layout_marginTop="4dp"
-            android:maxLines="3"
-            android:ellipsize="end" />
+            android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -71,6 +84,6 @@
         android:textColor="#FFFFFF"
         android:textSize="10sp"
         android:paddingTop="4dp"
-        android:contentDescription="地図で表示" />
+        android:contentDescription="地図で表示"/>
 
 </LinearLayout>

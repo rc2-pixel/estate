@@ -9,75 +9,142 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- 床面積 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="【床面積】"
+            android:textStyle="bold"
+            android:textColor="#1976D2"
+            android:layout_marginBottom="4dp"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView android:layout_width="60dp" android:layout_height="wrap_content"
+                android:text="1階" android:gravity="center_vertical" android:layout_marginEnd="4dp"/>
+            <EditText android:id="@+id/etFloorArea1"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:hint="㎡" android:inputType="numberDecimal"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView android:layout_width="60dp" android:layout_height="wrap_content"
+                android:text="2階" android:gravity="center_vertical" android:layout_marginEnd="4dp"/>
+            <EditText android:id="@+id/etFloorArea2"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:hint="㎡" android:inputType="numberDecimal"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView android:layout_width="60dp" android:layout_height="wrap_content"
+                android:text="3階" android:gravity="center_vertical" android:layout_marginEnd="4dp"/>
+            <EditText android:id="@+id/etFloorArea3"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:hint="㎡" android:inputType="numberDecimal"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView android:layout_width="60dp" android:layout_height="wrap_content"
+                android:text="合計" android:gravity="center_vertical" android:layout_marginEnd="4dp"
+                android:textStyle="bold"/>
+            <EditText android:id="@+id/etFloorAreaTotal"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:hint="㎡" android:inputType="numberDecimal"/>
+        </LinearLayout>
+
         <!-- 土地情報 -->
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="【土地情報】" android:textStyle="bold" android:layout_marginBottom="4dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="【土地情報】"
+            android:textStyle="bold"
+            android:textColor="#1976D2"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp"/>
 
         <EditText android:id="@+id/etArea"
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:hint="面積（㎡）" android:inputType="numberDecimal" />
+            android:hint="土地面積（㎡）" android:inputType="numberDecimal"/>
 
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
             android:text="地目" android:layout_marginTop="8dp"/>
         <Spinner android:id="@+id/spinnerLandCategory"
-            android:layout_width="match_parent" android:layout_height="wrap_content" />
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
         <EditText android:id="@+id/etFrontage"
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:hint="間口（m）" android:inputType="numberDecimal" />
+            android:hint="間口（m）" android:inputType="numberDecimal"/>
 
         <EditText android:id="@+id/etRoadWidth"
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:hint="道路幅（m）" android:inputType="numberDecimal" />
+            android:hint="道路幅（m）" android:inputType="numberDecimal"/>
 
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
             android:text="道路向き" android:layout_marginTop="8dp"/>
         <Spinner android:id="@+id/spinnerRoadDirection"
-            android:layout_width="match_parent" android:layout_height="wrap_content" />
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
         <!-- 建物情報 -->
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="【建物情報】" android:textStyle="bold" android:layout_marginTop="12dp"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="【建物情報】"
+            android:textStyle="bold"
+            android:textColor="#1976D2"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="4dp"/>
 
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
             android:text="構造"/>
         <Spinner android:id="@+id/spinnerStructure"
-            android:layout_width="match_parent" android:layout_height="wrap_content" />
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
-        <EditText android:id="@+id/etBuiltYear"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:hint="築年（年）" android:inputType="number" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="築年" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/spinnerBuiltYear"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
-        <EditText android:id="@+id/etFloors"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:hint="階数" android:inputType="number" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="階数" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/spinnerFloors"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
             android:text="間取り" android:layout_marginTop="8dp"/>
         <Spinner android:id="@+id/spinnerLayout"
-            android:layout_width="match_parent" android:layout_height="wrap_content" />
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
-        <EditText android:id="@+id/etParking"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:hint="駐車台数" android:inputType="number" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="駐車" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/spinnerParking"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
-        <EditText android:id="@+id/etWaterSupply"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:hint="上水道" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="上水道" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/spinnerWaterSupply"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
-        <EditText android:id="@+id/etSewage"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:hint="下水道" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="下水道" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/spinnerSewage"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
 
         <!-- メモ -->
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="【メモ】" android:textStyle="bold" android:layout_marginTop="12dp"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="【メモ】"
+            android:textStyle="bold"
+            android:textColor="#1976D2"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="4dp"/>
 
         <EditText android:id="@+id/etMemo"
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:hint="メモ" android:minLines="3" android:gravity="top" />
+            android:hint="メモ" android:minLines="3" android:gravity="top"/>
 
     </LinearLayout>
 </ScrollView>
