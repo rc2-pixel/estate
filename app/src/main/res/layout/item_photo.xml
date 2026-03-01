@@ -57,4 +57,15 @@
             android:ellipsize="end" />
 
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btnMap"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:src="@android:drawable/ic_dialog_map"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="地図で表示"
+        android:layout_marginStart="4dp" />
+
 </LinearLayout>
