@@ -48,4 +48,64 @@
         <item>4LDK以上</item>
         <item>その他</item>
     </string-array>
+
+    <!-- 築年プルダウン（築1年〜築50年・築年不詳） -->
+    <string-array name="built_years">
+        <item>（未選択）</item>
+        <item>新築</item>
+        <item>築1年</item>
+        <item>築2年</item>
+        <item>築3年</item>
+        <item>築4年</item>
+        <item>築5年</item>
+        <item>築6年</item>
+        <item>築7年</item>
+        <item>築8年</item>
+        <item>築9年</item>
+        <item>築10年</item>
+        <item>築11年</item>
+        <item>築12年</item>
+        <item>築13年</item>
+        <item>築14年</item>
+        <item>築15年</item>
+        <item>築16年</item>
+        <item>築17年</item>
+        <item>築18年</item>
+        <item>築19年</item>
+        <item>築20年</item>
+        <item>築25年</item>
+        <item>築30年</item>
+        <item>築35年</item>
+        <item>築40年</item>
+        <item>築45年</item>
+        <item>築50年以上</item>
+        <item>築年不詳</item>
+    </string-array>
+
+    <!-- 階数プルダウン -->
+    <string-array name="floors_list">
+        <item>（未選択）</item>
+        <item>平屋（1階）</item>
+        <item>2階建て</item>
+        <item>3階建て</item>
+        <item>4階建て</item>
+        <item>5階建て以上</item>
+    </string-array>
+
+    <!-- 駐車プルダウン -->
+    <string-array name="parking_list">
+        <item>（未選択）</item>
+        <item>なし</item>
+        <item>1台</item>
+        <item>2台</item>
+        <item>3台</item>
+        <item>4台以上</item>
+    </string-array>
+
+    <!-- 上水道・下水道 -->
+    <string-array name="utility_options">
+        <item>（未選択）</item>
+        <item>有</item>
+        <item>無</item>
+    </string-array>
 </resources>
