@@ -51,14 +51,9 @@ class PhotoAdapter(
             .centerCrop()
             .into(holder.ivPhoto)
 
-        // 写真タップ → スワイプ閲覧
         holder.ivPhoto.setOnClickListener { onPhotoClick(photo) }
         holder.itemView.setOnClickListener { onPhotoClick(photo) }
-
-        // 詳細表示ボタン → ダイアログ
         holder.btnDetail.setOnClickListener { showDetailDialog(it, photo) }
-
-        // 地図ボタン
         holder.btnMap.setOnClickListener { onMapClick(photo) }
     }
 
@@ -78,15 +73,6 @@ class PhotoAdapter(
         dialogView.findViewById<TextView>(R.id.tvDetailDate).text =
             "撮影日時: ${sdf.format(Date(photo.timestamp))}"
 
-        // 床面積
-        val floorLines = mutableListOf<String>()
-        if (photo.floorArea1.isNotEmpty()) floorLines.add("1階: ${photo.floorArea1}㎡")
-        if (photo.floorArea2.isNotEmpty()) floorLines.add("2階: ${photo.floorArea2}㎡")
-        if (photo.floorArea3.isNotEmpty()) floorLines.add("3階: ${photo.floorArea3}㎡")
-        if (photo.floorAreaTotal.isNotEmpty()) floorLines.add("合計: ${photo.floorAreaTotal}㎡")
-        dialogView.findViewById<TextView>(R.id.tvDetailFloorAreas).text =
-            if (floorLines.isNotEmpty()) floorLines.joinToString("\n") else "未入力"
-
         // 土地情報
         val landLines = mutableListOf<String>()
         if (photo.area.isNotEmpty()) landLines.add("土地面積: ${photo.area}㎡")
@@ -97,8 +83,12 @@ class PhotoAdapter(
         dialogView.findViewById<TextView>(R.id.tvDetailLand).text =
             if (landLines.isNotEmpty()) landLines.joinToString("\n") else "未入力"
 
-        // 建物情報
+        // 建物情報（床面積を1番目に）
         val buildingLines = mutableListOf<String>()
+        if (photo.floorArea1.isNotEmpty()) buildingLines.add("床面積1階: ${photo.floorArea1}㎡")
+        if (photo.floorArea2.isNotEmpty()) buildingLines.add("床面積2階: ${photo.floorArea2}㎡")
+        if (photo.floorArea3.isNotEmpty()) buildingLines.add("床面積3階: ${photo.floorArea3}㎡")
+        if (photo.floorAreaTotal.isNotEmpty()) buildingLines.add("床面積合計: ${photo.floorAreaTotal}㎡")
         if (photo.structure.isNotEmpty() && photo.structure != "（未選択）") buildingLines.add("構造: ${photo.structure}")
         if (photo.builtYear.isNotEmpty() && photo.builtYear != "（未選択）") buildingLines.add("築年: ${photo.builtYear}")
         if (photo.floors.isNotEmpty() && photo.floors != "（未選択）") buildingLines.add("階数: ${photo.floors}")
