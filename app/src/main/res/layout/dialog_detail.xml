@@ -36,22 +36,6 @@
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:textSize="12sp" android:textColor="#666666" android:padding="4dp"/>
 
-        <!-- 床面積 -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="■ 床面積"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:background="#1976D2"
-            android:padding="6dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="4dp"/>
-
-        <TextView android:id="@+id/tvDetailFloorAreas"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:textSize="13sp" android:padding="4dp"/>
-
         <!-- 土地情報 -->
         <TextView
             android:layout_width="match_parent"
@@ -68,7 +52,7 @@
             android:layout_width="match_parent" android:layout_height="wrap_content"
             android:textSize="13sp" android:padding="4dp"/>
 
-        <!-- 建物情報 -->
+        <!-- 建物情報（床面積を1番目に含む） -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
