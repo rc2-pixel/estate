@@ -3,6 +3,7 @@ package com.example.locationapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -14,14 +15,18 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(DiffCallback()) {
+class PhotoAdapter(
+    private val onPhotoClick: (Photo) -> Unit,
+    private val onMapClick: (Photo) -> Unit
+) : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(DiffCallback()) {
 
     class PhotoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val ivPhoto: ImageView = view.findViewById(R.id.ivPhoto)
-        val tvAddress: TextView = view.findViewById(R.id.tvItemAddress)
+        val ivPhoto: ImageView   = view.findViewById(R.id.ivPhoto)
+        val tvAddress: TextView  = view.findViewById(R.id.tvItemAddress)
         val tvAltitude: TextView = view.findViewById(R.id.tvItemAltitude)
-        val tvDate: TextView = view.findViewById(R.id.tvItemDate)
-        val tvDetail: TextView = view.findViewById(R.id.tvItemDetail)
+        val tvDate: TextView     = view.findViewById(R.id.tvItemDate)
+        val tvDetail: TextView   = view.findViewById(R.id.tvItemDetail)
+        val btnMap: ImageButton  = view.findViewById(R.id.btnMap)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
@@ -33,13 +38,12 @@ class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(DiffCallba
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
         val photo = getItem(position)
 
-        holder.tvAddress.text = photo.address.ifEmpty { "住所不明" }
+        holder.tvAddress.text  = photo.address.ifEmpty { "住所不明" }
         holder.tvAltitude.text = "標高: %.1f m".format(photo.altitude)
 
         val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.JAPANESE)
         holder.tvDate.text = sdf.format(Date(photo.timestamp))
 
-        // 土地・建物情報をまとめて表示
         val details = mutableListOf<String>()
         if (photo.area.isNotEmpty()) details.add("面積: ${photo.area}㎡")
         if (photo.landCategory.isNotEmpty() && photo.landCategory != "（未選択）") details.add("地目: ${photo.landCategory}")
@@ -54,13 +58,16 @@ class PhotoAdapter : ListAdapter<Photo, PhotoAdapter.PhotoViewHolder>(DiffCallba
         if (photo.waterSupply.isNotEmpty()) details.add("上水: ${photo.waterSupply}")
         if (photo.sewage.isNotEmpty()) details.add("下水: ${photo.sewage}")
         if (photo.memo.isNotEmpty()) details.add("メモ: ${photo.memo}")
-
         holder.tvDetail.text = if (details.isNotEmpty()) details.joinToString("　") else "詳細情報なし"
 
         Glide.with(holder.ivPhoto.context)
             .load(File(photo.filePath))
             .centerCrop()
             .into(holder.ivPhoto)
+
+        holder.ivPhoto.setOnClickListener { onPhotoClick(photo) }
+        holder.itemView.setOnClickListener { onPhotoClick(photo) }
+        holder.btnMap.setOnClickListener { onMapClick(photo) }
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Photo>() {

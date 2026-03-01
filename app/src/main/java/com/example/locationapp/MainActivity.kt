@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -44,7 +45,6 @@ class MainActivity : AppCompatActivity() {
     private var photoUri: Uri? = null
     private var photoFilePath: String = ""
 
-    // 複数枚撮影セッション管理
     private var currentSessionId: String = ""
     private val sessionPhotoPaths = mutableListOf<String>()
 
@@ -88,9 +88,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showContinueOrInputDialog() {
-        val count = sessionPhotoPaths.size
         AlertDialog.Builder(this)
-            .setTitle("撮影完了（${count}枚）")
+            .setTitle("撮影完了（${sessionPhotoPaths.size}枚）")
             .setMessage("続けて撮影しますか？\nまたはデータ入力に進みますか？")
             .setPositiveButton("続けて撮影") { _, _ -> checkCameraPermission() }
             .setNegativeButton("データ入力へ") { _, _ -> showInputDialog() }
@@ -99,8 +98,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showInputDialog() {
-        val inflater = LayoutInflater.from(this)
-        val dialogView: android.view.View = inflater.inflate(R.layout.dialog_input, null)
+        val dialogView: View = LayoutInflater.from(this).inflate(R.layout.dialog_input, null)
 
         val etArea               = dialogView.findViewById<EditText>(R.id.etArea)
         val spinnerLandCategory  = dialogView.findViewById<Spinner>(R.id.spinnerLandCategory)

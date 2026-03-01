@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Photo::class], version = 2)
+@Database(entities = [Photo::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun photoDao(): PhotoDao
 
@@ -32,6 +32,15 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE photos ADD COLUMN sessionId TEXT NOT NULL DEFAULT ''")
+                database.execSQL("ALTER TABLE photos ADD COLUMN isMainPhoto INTEGER NOT NULL DEFAULT 1")
+                database.execSQL("ALTER TABLE photos ADD COLUMN memo TEXT NOT NULL DEFAULT ''")
+                database.execSQL("UPDATE photos SET sessionId = CAST(id AS TEXT)")
+            }
+        }
+
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -39,8 +48,8 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "photo_database"
                 )
-                .addMigrations(MIGRATION_1_2)
-                .build()
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                    .build()
                 INSTANCE = instance
                 instance
             }

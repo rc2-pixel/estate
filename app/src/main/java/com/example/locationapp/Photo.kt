@@ -12,6 +12,8 @@ data class Photo(
     val latitude: Double,
     val longitude: Double,
     val altitude: Double,
+    val sessionId: String = "",
+    val isMainPhoto: Boolean = true,
     // 土地情報
     val area: String = "",
     val landCategory: String = "",
